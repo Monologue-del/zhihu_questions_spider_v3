@@ -1,5 +1,5 @@
 # zhihu_questions_spider_v3
-从知乎推荐页入手，获取问题url，再爬取问题信息及回答（独立进行），存储到MongoDB
+从知乎推荐页入手，获取问题url，再爬取问题信息及回答（独立进行），使用代理ip，存储到MongoDB
 
 文件介绍：
 - questions_url：从推荐页获取问题url
