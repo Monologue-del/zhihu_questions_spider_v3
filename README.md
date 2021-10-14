@@ -3,8 +3,8 @@
 
 文件介绍：
 - questions_url：从推荐页获取问题url
-- question（待完善初始url获取）：访问每一个问题url，获取问题详细信息
-- answers（待完善初始url获取）：获取问题对应的回答信息
+- question：访问每一个问题url，获取问题详细信息
+- answers：获取问题对应的回答信息
 
 使用步骤：
 - 启动MongoDB服务
