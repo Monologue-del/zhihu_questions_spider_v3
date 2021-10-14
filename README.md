@@ -9,4 +9,5 @@
 使用步骤：
 - 启动MongoDB服务
 - 将ip加入代理ip白名单（极光代理）：若无代理ip需要，可在settings文件中关闭（注释掉）downloadmiddleware
-- 运行main函数
+- 运行questions_url文件夹下的main函数，获取问题基本信息
+- 分别运行question和answers文件夹下的main函数，获取问题和答案的详细信息
