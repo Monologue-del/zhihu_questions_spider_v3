@@ -1,7 +1,9 @@
 import scrapy
 import datetime
 import time
+import pymongo
 from questions.settings import DATETIME_FORMAT
+from questions.settings import MONGO_URI
 from questions.items import QuestionsItem
 from lxml import etree
 import json
@@ -10,18 +12,23 @@ import json
 class MyspiderSpider(scrapy.Spider):
     name = 'mySpider'
     # allowed_domains = ['www.xxx.com']
-    # 待完善：从已爬取的问题数据中获取问题id列表
-    question_id_list = ['360855944', '351797006']
+
+    # 从MongoDB获取问题id
+    myClient = pymongo.MongoClient(MONGO_URI)
+    myDB = myClient['zhihu_Questions']
+    myCol = myDB['questions_url']
+    question_id_list = myCol.find({}, {'_id': 0, 'id': 1})
+
     question_url = 'https://www.zhihu.com/question/{question_id}'
 
     def start_requests(self):
         for question_id in self.question_id_list:
-            yield scrapy.Request(self.question_url.format(question_id=question_id), headers={
+            yield scrapy.Request(self.question_url.format(question_id=question_id['id']), headers={
                 'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'},
-                                 callback=self.parse)
+                                 callback=self.parse_question)
             time.sleep(1)
 
-    def parse(self, response):
+    def parse_question(self, response):
         json_text_content = response.xpath("//script[@id='js-initialData']/text()").get()
         time.sleep(1)
         json_content = json.loads(json_text_content)
